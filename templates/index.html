@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orçamento</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+        }
+
+        .actions a {
+            margin-right: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .actions a:hover {
+            text-decoration: underline;
+        }
+
+        .budget {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9e9e9;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .add-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .add-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .add-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            table {
+                font-size: 14px;
+            }
+        }
+    </style>
+
+</head>
+<body>
+
+    <h1>Orçamento</h1>
+
+    <!-- Botão de adicionar equipamento -->
+    <a href="{{ url_for('add_equipment') }}" class="add-btn">Adicionar Equipamento</a>
+    <div class="budget">
+        <h2>Total do Orçamento: ${{ total_value }}</h2>
+    </div>
+
+
+    <!-- Tabela de equipamentos -->
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Modelo</th>
+                <th>Quantidade</th>
+                <th>Unidade</th>
+                <th>Valor</th>
+                <th>Link de Pesquisa</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipment in equipments %}
+            <tr>
+                <td>{{ equipment.name }}</td>
+                <td>{{ equipment.description }}</td>
+                <td>{{ equipment.model }}</td>
+                <td>{{ equipment.quantity }}</td>
+                <td>{{ equipment.unit }}</td>
+                <td>{{ equipment.value }}</td>
+                <td><a href="{{ equipment.research_link }}" target="_blank">Link</a></td>
+                <td class="actions">
+                    <a href="{{ url_for('edit_equipment', id=equipment.id) }}">Editar</a>
+                    <a href="{{ url_for('delete_equipment', id=equipment.id) }}" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Exibição do orçamento total -->
+    <div class="budget">
+        <h2>Total do Orçamento: ${{ total_value }}</h2>
+    </div>
+
+</body>
+</html>
